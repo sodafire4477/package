@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php //-->
+$cradleFrameworkCLI = function($cwd) {
+  foreach (
+    [
+      $cwd . '/.cradle.php',
+      $cwd . '/.cradle'
+    ] as $file
+  ) {
+    if (file_exists($file)) {
+      break;
+    }
+  }
+
+  if (!file_exists($file)) {
+    print PHP_EOL . 'Cannot find Cradle Bootstrap' . PHP_EOL;
+    die(1);
+  }
+
+  require $file;
+
+  return cradle('terminal');
+};
+
+$cradleFrameworkCLI(getcwd())->run();
