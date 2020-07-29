@@ -21,11 +21,11 @@
     "php-coveralls/php-coveralls": "~2.1.0"
   },
   "require": {
-    "cradlephp/components": "~2.3.0"
+    "cradlephp/components": "~3.0.0"
   },
   "autoload": {
     "psr-4": {
-      "Cradle\\Framework\\": "src/"
+      "Cradle\\Package\\": "src/"
     }
   },
   "bin": [
