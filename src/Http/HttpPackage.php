@@ -145,6 +145,7 @@ class HttpPackage
    */
   public function route(string $method, string $path, $callback, ...$args): HttpPackage
   {
+    $router = $this->getRouter();
     array_unshift($args, $callback);
 
     foreach ($args as $i => $callback) {
@@ -172,7 +173,7 @@ class HttpPackage
       //if it's callable
       if (is_callable($callback)) {
         //route it
-        $this->routeHttp($method, $path, $callback, $priority);
+        $router->route($method, $path, $callback, $priority);
       }
     }
 

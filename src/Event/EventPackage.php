@@ -37,7 +37,10 @@ class EventPackage
     ConditionalTrait,
     InspectorTrait,
     LoggerTrait,
-    StateTrait;
+    StateTrait
+    {
+      EventTrait::on as onEvent;
+  }
 
   /**
    * Runs an event like a method
@@ -67,5 +70,52 @@ class EventPackage
     }
 
     return $response->getResults();
+  }
+
+  /**
+   * Adds ... considerations
+   *
+   * @param *string          $event    The event name
+   * @param *callable|string $callback The middleware handler
+   * @param callable|string  ...$args  Arguments for flow
+   *
+   * @return EventPackage
+   */
+  public function on($event, callable $callback, ...$args): EventPackage
+  {
+    $emitter = $this->getEventEmitter();
+
+    array_unshift($args, $callback);
+
+    foreach ($args as $i => $callback) {
+      $priority = 0;
+      if (isset($args[$i + 1]) && is_numeric($args[$i + 1])) {
+        $priority = $args[$i + 1];
+      }
+
+      //if it's a string
+      if (is_string($callback)) {
+        //it's an event
+        $event = $callback;
+        //make into callback
+        $callback = function ($request, $response) use ($event) {
+          $this->trigger($event, $request, $response);
+        };
+      }
+
+      //if it's closure
+      if ($callback instanceof Closure) {
+        //bind it
+        $callback = cradle()->bindCallback($callback);
+      }
+
+      //if it's callable
+      if (is_callable($callback)) {
+        //route it
+        $emitter->on($event, $callback, $priority);
+      }
+    }
+
+    return $this;
   }
 }
