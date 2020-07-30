@@ -167,7 +167,7 @@ class HttpPackage
       //if it's closure
       if ($callback instanceof Closure) {
         //bind it
-        $callback = $this->bindCallback($callback);
+        $callback = cradle()->bindCallback($callback);
       }
 
       //if it's callable
