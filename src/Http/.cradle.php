@@ -4,7 +4,7 @@ use Cradle\Package\Http\HttpPackage;
 
 $this('http')
   //map the package with the http package class methods
-  ->mapPackageMethods($this('resolver')->resolve(HttpPackage::class))
+  ->mapPackageMethods($this('resolver')->resolve(HttpPackage::class, $this))
   //use one global resolver
   ->setResolverHandler($this('resolver')->getResolverHandler())
   //use one global request

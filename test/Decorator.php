@@ -39,7 +39,7 @@ class Cradle_Package_Decorator_Test extends TestCase
   public function testCradle()
   {
     $this->assertInstanceOf('Cradle\Package\PackageHandler', cradle());
-    $this->assertInstanceOf('Cradle\Package\Package', cradle('global'));
+    $this->assertInstanceOf('Cradle\Package\Package', cradle('io'));
     $this->assertEquals('foobar', cradle(function() {
       return 'foobar';
     }));

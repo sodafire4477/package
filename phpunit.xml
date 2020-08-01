@@ -18,6 +18,7 @@
     <file>test/Package.php</file>
     <file>test/PackageTrait.php</file>
     <file>test/Decorator.php</file>
+    <file>test/Config/ConfigPackage.php</file>
     <file>test/Event/EventPackage.php</file>
     <file>test/Http/HttpPackage.php</file>
     <file>test/IO/IOPackage.php</file>
@@ -35,6 +36,7 @@
         <file>src/IO/.cradle.php</file>
         <file>src/Resolver/.cradle.php</file>
         <file>src/Terminal/.cradle.php</file>
+        <file>src/Config/.cradle.php</file>
       </exclude>
     </whitelist>
   </filter>

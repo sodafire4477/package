@@ -33,10 +33,10 @@ class PackageHandler extends IOHandler
   public function __construct()
   {
     $this
-      ->register('global')
       ->register('resolver', sprintf('%s/Resolver', __DIR__))
       ->register('io', sprintf('%s/IO', __DIR__))
       ->register('event', sprintf('%s/Event', __DIR__))
+      ->register('config', sprintf('%s/Config', __DIR__))
       ->register('http', sprintf('%s/Http', __DIR__))
       ->register('terminal', sprintf('%s/Terminal', __DIR__));
   }

@@ -22,6 +22,8 @@ use Cradle\Resolver\StateTrait;
 use Cradle\IO\Request;
 use Cradle\IO\Response;
 
+use Cradle\Package\PackageHandler;
+
 /**
  * Event Package
  *
@@ -40,6 +42,21 @@ class EventPackage
     StateTrait
     {
       EventTrait::on as onEvent;
+  }
+
+  /**
+   * @var *PackageHandler $handler
+   */
+  protected $handler;
+
+  /**
+   * Add handler for scope when routing
+   *
+   * @param *PackageHandler $handler
+   */
+  public function __construct(PackageHandler $handler)
+  {
+    $this->handler = $handler;
   }
 
   /**
@@ -99,14 +116,14 @@ class EventPackage
         $event = $callback;
         //make into callback
         $callback = function ($request, $response) use ($event) {
-          $this->trigger($event, $request, $response);
+          ($this->handler)('event')->emit($event, $request, $response);
         };
       }
 
       //if it's closure
       if ($callback instanceof Closure) {
         //bind it
-        $callback = cradle()->bindCallback($callback);
+        $callback = $this->handler->bindCallback($callback);
       }
 
       //if it's callable

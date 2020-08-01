@@ -23,6 +23,8 @@ use Cradle\Profiler\LoggerTrait;
 
 use Cradle\Resolver\StateTrait;
 
+use Cradle\Package\PackageHandler;
+
 /**
  * Http Package
  *
@@ -47,6 +49,21 @@ class HttpPackage
       HttpTrait::get as getHttp;
       HttpTrait::post as postHttp;
       HttpTrait::put as putHttp;
+  }
+
+  /**
+   * @var *PackageHandler $handler
+   */
+  protected $handler;
+
+  /**
+   * Add handler for scope when routing
+   *
+   * @param *PackageHandler $handler
+   */
+  public function __construct(PackageHandler $handler)
+  {
+    $this->handler = $handler;
   }
 
   /**
@@ -160,14 +177,14 @@ class HttpPackage
         $event = $callback;
         //make into callback
         $callback = function ($request, $response) use ($event) {
-          $this->trigger($event, $request, $response);
+          ($this->handler)('event')->emit($event, $request, $response);
         };
       }
 
       //if it's closure
       if ($callback instanceof Closure) {
         //bind it
-        $callback = cradle()->bindCallback($callback);
+        $callback = $this->handler->bindCallback($callback);
       }
 
       //if it's callable
